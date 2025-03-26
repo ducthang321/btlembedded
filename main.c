@@ -10,20 +10,22 @@
 #include "findroot.h"
 
 #define NUM_THREADS 3
-#define ROWS 5
-#define COLS 5
+#define ROWS 7    // 7 hàng
+#define COLS 4    // 4 cột
 
 // Định nghĩa các chân GPIO cho hàng và cột (theo chuẩn BCM)
-int rowPins[ROWS] = {17, 18, 27, 22, 23}; // Hàng
-int colPins[COLS] = {24, 25, 8, 7, 1};    // Cột
+int rowPins[ROWS] = {17, 18, 27, 22, 23, 24, 25}; // 7 hàng
+int colPins[COLS] = {8, 7, 1, 4};                 // 4 cột
 
-// Ánh xạ phím 5x5 (25 phím) thành các ký tự
+// Ánh xạ phím 7x4 (28 phím) thành các ký tự
 char keymap[ROWS][COLS] = {
-    {'0', '1', '2', '3', '4'},
-    {'5', '6', '7', '8', '9'},
-    {'.', '+', '-', '*', '/'},
-    {'x', '^', '(', ')', '\0'}, // \0 cho vị trí trống
-    {'\0', '\0', '\0', 'E', '\0'} // E là Enter, các vị trí khác trống
+    {'1', '2', '3', '+'},
+    {'4', '5', '6', '-'},
+    {'7', '8', '9', '*'},
+    {'0', '.', '/', '^'},
+    {'(', ')', 'x', 'E'}, // E là Enter
+    {'\0', '\0', '\0', '\0'}, // Dòng trống
+    {'\0', '\0', '\0', '\0'}  // Dòng trống
 };
 
 // Biến toàn cục cho luồng
@@ -36,7 +38,7 @@ typedef struct {
     float result;
 } ThreadData;
 
-// Hàm quét bàn phím 5x5
+// Hàm quét bàn phím 7x4
 char scanKeypad() {
     for (int r = 0; r < ROWS; r++) {
         digitalWrite(rowPins[r], LOW); // Đặt hàng hiện tại thành LOW
@@ -126,10 +128,10 @@ int main() {
         pullUpDnControl(colPins[i], PUD_UP);
     }
 
-    printf("Nhập biểu thức bằng bàn phím 5x5 (ấn 'E' để xác nhận và tính toán):\n");
+    printf("Nhập biểu thức bằng bàn phím 7x4 (ấn 'E' để xác nhận và tính toán):\n");
     printf("Hiện tại: ");
 
-    // Nhập biểu thức từ bàn phím 5x5
+    // Nhập biểu thức từ bàn phím 7x4
     while (1) {
         ch = scanKeypad();
         if (ch == '\0') continue; // Không có phím nào được nhấn
