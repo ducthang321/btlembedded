@@ -24,7 +24,7 @@ float newtonRaphson(Token *postfix) {
 }
 
 float bisectionMethod(Token *postfix) {
-    float a = -10.0, b = 10.0; // Initial interval
+    float a = -10000.0, b = 10000.0; // Initial interval
     float fa = evaluatePostfix(postfix, a);
     float fb = evaluatePostfix(postfix, b);
 
